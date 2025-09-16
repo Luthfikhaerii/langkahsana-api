@@ -19,3 +19,36 @@ model User {
   password  String
   createdAt DateTime @default(now())
 }
+
+model Article {
+  id          Int @id @default(autoincrement())
+  title       String
+  description String
+  date        DateTime @default(now())
+  contents  Content[]   
+}
+
+model Content {
+  id    Int @id @default(autoincrement())
+  content
+}
+
+model Trip {
+  id        Int    @id @default(autoincrement())
+  title     String 
+  date      DateTime @default(now())
+  participants Participant[]
+}
+
+model Participant {
+  id              Int   @id @default(autoincrement())
+  name            String
+  trip_id         Int
+  no_whatsapp     String
+  no_darurat      String
+  address         String
+  meet_point      String
+  payment_proof   String
+  
+  trip Trip @relation(fields:[trip_id],references:[id])
+}
