@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class UserService {
-    constructor(private prisma:PrismaService){}
+    constructor(private prisma:PrismaService,private authService:AuthService){}
 
     async create(data:{email:string,password:string}){
         return this.prisma.user.create({
@@ -16,5 +17,16 @@ export class UserService {
 
     async get(){
         return this.prisma.user.findMany()
+    }
+
+    async login(data:{email:string,password:string}){
+        const user = await this.prisma.user.findUnique({
+            where:{
+                email:data.email
+            }
+        })
+        if(user?.password !== data.password) throw new UnauthorizedException('') 
+        const token = this.authService.generateToken({email:data.email,role:user?.role})
+        return token
     }
 }

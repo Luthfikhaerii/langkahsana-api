@@ -17,6 +17,7 @@ model User {
   id        Int     @id @default(autoincrement())
   email     String  @unique
   password  String
+  role      String @default("user")
   createdAt DateTime @default(now())
 }
 
@@ -25,19 +26,36 @@ model Article {
   title       String
   description String
   date        DateTime @default(now())
-  contents  Content[]   
+  contents    Content[]   
 }
 
 model Content {
   id    Int @id @default(autoincrement())
-  content
+  id_article Int
+  content  String
+
+  article Article @relation(fields:[id_article],references: [id])
 }
 
 model Trip {
   id        Int    @id @default(autoincrement())
   title     String 
   date      DateTime @default(now())
+  location  String
+  meet_point String
+  kuota     Int
+  price     Int
+
+  content   TripContent[]
   participants Participant[]
+}
+
+model TripContent {
+  id    Int @id @default(autoincrement())
+  id_trip  Int
+  content String
+
+  trip  Trip @relation(fields:[id_trip],references:[id])
 }
 
 model Participant {
