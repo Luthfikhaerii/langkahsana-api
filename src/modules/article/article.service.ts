@@ -2,12 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { ArticleCreateDto } from './dto/article-create.dto';
 import { ArticleUpdateDto } from './dto/article-update.dto';
+import { ArticleQueryDto } from './dto/article-query.dto';
 
 @Injectable()
 export class ArticleService {
     constructor(private readonly prisma: PrismaService) { }
 
-    async getAll(query: { page: number, limit: number, search?: string }) {
+    async getAll(query: ArticleQueryDto) {
         const { page, limit, search } = query
         try {
             const data = await this.prisma.article.findMany({

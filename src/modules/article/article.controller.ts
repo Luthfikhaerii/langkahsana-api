@@ -1,8 +1,10 @@
-import { Controller, Get, Param, Query, Post, Body, Put, Delete } from '@nestjs/common';
+import { Controller, Get, Param, Query, Post, Body, Put, Delete, UseGuards } from '@nestjs/common';
 import { ArticleService } from './article.service';
 import { ArticleQueryDto } from './dto/article-query.dto';
 import { ArticleCreateDto } from './dto/article-create.dto';
 import { ArticleUpdateDto } from './dto/article-update.dto';
+import { AuthGuard } from '../auth/auth.guard';
+import { Role } from '../auth/auth.decorator';
 
 @Controller('article')
 export class ArticleController {
@@ -23,6 +25,8 @@ export class ArticleController {
         return { data: data, message: "get one article success!" }
     }
 
+    @UseGuards(AuthGuard)
+    @Role('admin')
     @Post()
     async createArticle(@Body() dto: ArticleCreateDto) {
         const data = await this.articleService.create(dto)
@@ -32,6 +36,8 @@ export class ArticleController {
         }
     }
 
+    @UseGuards(AuthGuard)
+    @Role('admin')
     @Put(':id')
     async editArticle(@Param('id') id:number,@Body() dto:ArticleUpdateDto){
         const data = await this.articleService.update(id,dto)
@@ -41,6 +47,8 @@ export class ArticleController {
         }
     }
 
+    @UseGuards(AuthGuard)
+    @Role('admin')
     @Delete(':id')
     async deleteArticle(@Param('id') id:number){
         await this.articleService.delete(id)
