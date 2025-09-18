@@ -39,15 +39,16 @@ export class ArticleService {
     }
 
     async create(dto: ArticleCreateDto) {
+        const {title,date,description,image,contents} = dto
         try {
             const article = await this.prisma.article.create({
                 data: {
-                    title: dto.title,
-                    date: dto.date,
-                    description: dto.description,
-                    image: dto.image,
+                    title: title,
+                    date: date,
+                    description: description,
+                    image: image,
                     contents: {
-                        create: dto.contents.map(v => ({
+                        create: contents.map(v => ({
                             content: v.content
                         }))
                     }

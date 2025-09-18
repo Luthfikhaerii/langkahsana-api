@@ -48,7 +48,7 @@ model Trip {
   price     Int
   image     String
 
-  content   TripContent[]
+  contents   TripContent[]
   participants Participant[]
 }
 

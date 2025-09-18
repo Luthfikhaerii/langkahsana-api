@@ -28,8 +28,8 @@ export class ArticleController {
     @UseGuards(AuthGuard)
     @Role('admin')
     @Post()
-    async createArticle(@Body() dto: ArticleCreateDto) {
-        const data = await this.articleService.create(dto)
+    async createArticle(@Body() body: ArticleCreateDto) {
+        const data = await this.articleService.create(body)
         return {
             message: "create article success!",
             data
@@ -39,8 +39,8 @@ export class ArticleController {
     @UseGuards(AuthGuard)
     @Role('admin')
     @Put(':id')
-    async editArticle(@Param('id') id:number,@Body() dto:ArticleUpdateDto){
-        const data = await this.articleService.update(id,dto)
+    async editArticle(@Param('id') id:number,@Body() body:ArticleUpdateDto){
+        const data = await this.articleService.update(id,body)
         return {
             message : "update article success!",
             data
