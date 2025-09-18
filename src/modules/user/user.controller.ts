@@ -3,6 +3,7 @@ import express from 'express';
 import { UserService } from './user.service';
 import { AuthGuard } from '../auth/auth.guard';
 import { Role } from '../auth/auth.decorator';
+import { UserRegisterDto } from './dto/user-register.dto';
 
 @Controller('user')
 export class UserController {
@@ -23,8 +24,8 @@ export class UserController {
 
     @Post('register')
     @HttpCode(HttpStatus.CREATED)
-    async register(@Body() body: { email: string, password: string, role: string }, @Res({ passthrough: true }) res: express.Response) {
-        const { user, token } = await this.userService.register({ email: body.email, password: body.password, role: body.role })
+    async register(@Body() body: UserRegisterDto , @Res({ passthrough: true }) res: express.Response) {
+        const { user, token } = await this.userService.register(body)
         res.cookie('token', token, {
             httpOnly: true, secure: true, path: "/", sameSite: 'none'
         })

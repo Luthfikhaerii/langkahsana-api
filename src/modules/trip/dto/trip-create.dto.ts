@@ -1,4 +1,7 @@
+import { IsDate, IsNumber, IsString } from "class-validator"
+
 class TripParticipantCreateDto {
+    
     name: string
     no_whatsapp: string
     no_darurat: string
@@ -12,12 +15,19 @@ class TripContentCreateDto {
 }
 
 export class TripCreateDto {
-  title:string     
+  @IsString()
+  title:string
+  @IsDate()     
   date:Date
-  location:string  
-  meet_point:string 
-  kuota:number     
-  price:number     
+  @IsString()
+  location:string
+  @IsString()  
+  meet_point:string
+  @IsNumber() 
+  kuota:number
+  @IsNumber()     
+  price:number
+  @IsString()     
   image:string
   contents:TripContentCreateDto[]
   participants:TripParticipantCreateDto[]     

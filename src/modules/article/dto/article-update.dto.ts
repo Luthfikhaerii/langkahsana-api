@@ -1,11 +1,17 @@
-class ArticleContentUpdateDto{
-    content:string
+import { IsDate, IsString } from "class-validator"
+
+class ArticleContentUpdateDto {
+    content: string
 }
 
-export class ArticleUpdateDto{
+export class ArticleUpdateDto {
+    @IsString()
     title: string
-    date: Date 
+    @IsDate()
+    date: Date
+    @IsString()
     description: string
+    @IsString()
     image: string
     contents: ArticleContentUpdateDto[]
 }

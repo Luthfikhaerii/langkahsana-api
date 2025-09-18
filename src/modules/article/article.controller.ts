@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query, Post, Body, Put, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Query, Post, Body, Put, Delete, UseGuards, ParseIntPipe, HttpStatus } from '@nestjs/common';
 import { ArticleService } from './article.service';
 import { ArticleQueryDto } from './dto/article-query.dto';
 import { ArticleCreateDto } from './dto/article-create.dto';
@@ -20,7 +20,7 @@ export class ArticleController {
     }
 
     @Get(':id')
-    async getOneArticle(@Param('id') id: number) {
+    async getOneArticle(@Param('id',new ParseIntPipe({errorHttpStatusCode:HttpStatus.NOT_ACCEPTABLE})) id: number) {
         const data = this.articleService.getOne(id)
         return { data: data, message: "get one article success!" }
     }
@@ -39,7 +39,7 @@ export class ArticleController {
     @UseGuards(AuthGuard)
     @Role('admin')
     @Put(':id')
-    async editArticle(@Param('id') id:number,@Body() body:ArticleUpdateDto){
+    async editArticle(@Param('id',new ParseIntPipe({errorHttpStatusCode:HttpStatus.NOT_ACCEPTABLE})) id:number,@Body() body:ArticleUpdateDto){
         const data = await this.articleService.update(id,body)
         return {
             message : "update article success!",

@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from '../auth/auth.service';
 import { PrismaService } from '../prisma/prisma.service';
+import { UserRegisterDto } from './dto/user-register.dto';
 
 @Injectable()
 export class UserService {
@@ -21,7 +22,7 @@ export class UserService {
         return token
     }
 
-    async register(data:{email:string,password:string,role:string}){ 
+    async register(data:UserRegisterDto){ 
         const existUser = await this.prisma.user.findUnique({where:{email:data.email}})
         if(existUser) throw new BadRequestException('User was exist!')
         

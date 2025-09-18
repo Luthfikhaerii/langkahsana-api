@@ -1,4 +1,4 @@
-import { Controller,Query,Body,Get,Post,Delete,Param, UseGuards } from '@nestjs/common';
+import { Controller,Query,Body,Get,Post,Delete,Param, UseGuards, ParseIntPipe, HttpStatus } from '@nestjs/common';
 import { ParticipantService } from './participant.service';
 import { ParticipantQueryDto } from './dto/participant-query.dto';
 import { ParticipantCreateDto } from './dto/participant-create.dto';
@@ -34,7 +34,7 @@ export class ParticipantController {
     @UseGuards(AuthGuard)
     @Role('admin')
     @Delete(':id')
-    async deleteParticipant(@Param('id') id:number){
+    async deleteParticipant(@Param('id',new ParseIntPipe({errorHttpStatusCode:HttpStatus.NOT_ACCEPTABLE})) id:number){
         await this.participantService.delete(id)
         return {
             message: "delete participant success!"

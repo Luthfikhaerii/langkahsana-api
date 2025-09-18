@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, ParseIntPipe, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { TripService } from './trip.service';
 import { TripQueryDto } from './dto/trip-query.dto';
 import { TripCreateDto } from './dto/trip-create.dto';
@@ -20,7 +20,7 @@ export class TripController {
     }
 
     @Get(':id')
-    async getOneTrip(@Param('id') id: number) {
+    async getOneTrip(@Param('id', new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })) id: number) {
         const data = this.tripService.getOne(id)
         return {
             message: "get one trip success!",
@@ -42,7 +42,7 @@ export class TripController {
     @Put(':id')
     @UseGuards(AuthGuard)
     @Role('admin')
-    async updateTrip(@Param('id') id: number, @Body() body: TripUpdateDto) {
+    async updateTrip(@Param('id', new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })) id: number, @Body() body: TripUpdateDto) {
         const data = this.tripService.update(id, body)
         return {
             message: "update trip success!",
@@ -53,7 +53,7 @@ export class TripController {
     @Delete(':id')
     @UseGuards(AuthGuard)
     @Role('admin')
-    async deleteTrip(@Param('id') id: number) {
+    async deleteTrip(@Param('id', new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })) id: number) {
         await this.tripService.delete(id)
         return {
             message: "delete trip success!"
