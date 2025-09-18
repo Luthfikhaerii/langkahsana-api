@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query, Post, Body, Put } from '@nestjs/common';
+import { Controller, Get, Param, Query, Post, Body, Put, Delete } from '@nestjs/common';
 import { ArticleService } from './article.service';
 import { ArticleQueryDto } from './dto/article-query.dto';
 import { ArticleCreateDto } from './dto/article-create.dto';
@@ -38,6 +38,14 @@ export class ArticleController {
         return {
             message : "update article success!",
             data
+        }
+    }
+
+    @Delete(':id')
+    async deleteArticle(@Param('id') id:number){
+        await this.articleService.delete(id)
+        return {
+            message : "delete article success!",
         }
     }
 }

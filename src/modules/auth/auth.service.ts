@@ -7,12 +7,14 @@ export class AuthService {
 
     generateToken(user:{email:string,role:string}){
         const payload = {email:user.email,role:user.role}
-        return { accessToken: this.jwtService.sign(payload)}
+        return this.jwtService.sign(payload)
     }
 
     verifyToken(token:string){
         try{
-            return this.jwtService.verify(token)
+            const payload = this.jwtService.verify(token)
+            console.log(payload)
+            return payload
         }catch{
             return null
         }

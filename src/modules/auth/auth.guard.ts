@@ -11,17 +11,12 @@ export class AuthGuard implements CanActivate {
   ): boolean | Promise<boolean> | Observable<boolean> {
     //get token header
     const request = context.switchToHttp().getRequest()
-    const authHeader = request.cookies['token']
+    const authHeader = request.cookies.token
 
     //validasi cek token
     if(!authHeader) throw new UnauthorizedException('No token existed!')
 
-    const [bearer,token] = authHeader.split(' ')
-    
-    //validasi format
-    if(!bearer || !token) throw new UnauthorizedException('Invalid token format!')
-
-    const payload = this.authService.verifyToken(token)
+    const payload = this.authService.verifyToken(authHeader)
     if(!payload) throw new UnauthorizedException('Token invalid!')
 
     request.user = payload

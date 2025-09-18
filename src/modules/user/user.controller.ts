@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Post, Res, UseGuar
 import express from 'express';
 import { UserService } from './user.service';
 import { AuthGuard } from '../auth/auth.guard';
+import { Role } from '../auth/auth.decorator';
 
 @Controller('user')
 export class UserController {
@@ -35,6 +36,7 @@ export class UserController {
 
     @Delete('logout')
     @UseGuards(AuthGuard)
+    @Role('admin')
     @HttpCode(HttpStatus.OK)
     async logout(@Res({passthrough:true}) res:express.Response){
         res.clearCookie('token',{
