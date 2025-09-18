@@ -1,7 +1,8 @@
-import { Controller, Get, Param, Query, Post, Body } from '@nestjs/common';
+import { Controller, Get, Param, Query, Post, Body, Put } from '@nestjs/common';
 import { ArticleService } from './article.service';
 import { ArticleQueryDto } from './dto/article-query.dto';
 import { ArticleCreateDto } from './dto/article-create.dto';
+import { ArticleUpdateDto } from './dto/article-update.dto';
 
 @Controller('article')
 export class ArticleController {
@@ -27,6 +28,15 @@ export class ArticleController {
         const data = await this.articleService.create(dto)
         return {
             message: "create article success!",
+            data
+        }
+    }
+
+    @Put(':id')
+    async editArticle(@Param('id') id:number,@Body() dto:ArticleUpdateDto){
+        const data = await this.articleService.update(id,dto)
+        return {
+            message : "update article success!",
             data
         }
     }

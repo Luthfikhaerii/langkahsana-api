@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { ArticleCreateDto } from './dto/article-create.dto';
+import { ArticleUpdateDto } from './dto/article-update.dto';
 
 @Injectable()
 export class ArticleService {
@@ -46,6 +47,10 @@ export class ArticleService {
             }
         })
         return article
+
+    }
+
+    async update(id:number,dto:ArticleUpdateDto){
 
     }
 }
