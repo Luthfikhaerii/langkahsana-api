@@ -1,4 +1,11 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
-export class ParticipantService {}
+export class ParticipantService {
+    constructor(private prismaService:PrismaService){}
+
+    async createPartipant(){
+        
+    }
+}

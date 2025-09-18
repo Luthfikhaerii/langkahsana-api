@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { TripService } from './trip.service';
 import { TripQueryDto } from './dto/trip-query.dto';
 import { TripCreateDto } from './dto/trip-create.dto';
@@ -10,6 +10,7 @@ import { Role } from '../auth/auth.decorator';
 export class TripController {
     constructor(private tripService: TripService) { }
 
+    @Get()
     async getTrips(@Query() query: TripQueryDto) {
         const data = this.tripService.getAll(query)
         return {
@@ -18,6 +19,7 @@ export class TripController {
         }
     }
 
+    @Get(':id')
     async getOneTrip(@Param('id') id: number) {
         const data = this.tripService.getOne(id)
         return {
@@ -26,6 +28,7 @@ export class TripController {
         }
     }
 
+    @Post()
     @UseGuards(AuthGuard)
     @Role('admin')
     async createTrip(@Body() body: TripCreateDto) {
@@ -36,6 +39,7 @@ export class TripController {
         }
     }
 
+    @Put(':id')
     @UseGuards(AuthGuard)
     @Role('admin')
     async updateTrip(@Param('id') id: number, @Body() body: TripUpdateDto) {
@@ -46,6 +50,7 @@ export class TripController {
         }
     }
 
+    @Delete(':id')
     @UseGuards(AuthGuard)
     @Role('admin')
     async deleteTrip(@Param('id') id: number) {
