@@ -11,7 +11,7 @@ export class AuthGuard implements CanActivate {
   ): boolean | Promise<boolean> | Observable<boolean> {
     //get token header
     const request = context.switchToHttp().getRequest()
-    const authHeader = request.headers['authorization']
+    const authHeader = request.cookies['token']
 
     //validasi cek token
     if(!authHeader) throw new UnauthorizedException('No token existed!')
@@ -27,8 +27,8 @@ export class AuthGuard implements CanActivate {
     request.user = payload
 
     const requiredRoles = Reflect.getMetadata('role',context.getHandler())||[];
-    if(requiredRoles.length && !requiredRoles.some(role=> payload.role?.includes(role))){
-      throw new UnauthorizedException('Forbidden')
+    if(requiredRoles.length&&payload.role!==requiredRoles[0]){
+        throw new UnauthorizedException('Forbidden')
     }
 
     return true;

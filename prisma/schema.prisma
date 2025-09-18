@@ -26,6 +26,7 @@ model Article {
   title       String
   description String
   date        DateTime @default(now())
+  image       String
   contents    Content[]   
 }
 
@@ -45,6 +46,7 @@ model Trip {
   meet_point String
   kuota     Int
   price     Int
+  image     String
 
   content   TripContent[]
   participants Participant[]
