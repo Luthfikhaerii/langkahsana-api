@@ -53,7 +53,7 @@ export class UserController {
     @Get('auth')
     @UseGuards(AuthGuard)
     @Role('admin')
-    async auth(@Req() req:express.Request,@Res({passthrough:true}) res:express.Response ){
+    async auth(@Req() req:express.Request){
         const {token} = req.cookies
         const user = this.authService.verifyToken(token)
         return {
