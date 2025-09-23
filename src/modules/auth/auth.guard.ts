@@ -12,7 +12,6 @@ export class AuthGuard implements CanActivate {
     //get token header
     const request = context.switchToHttp().getRequest()
     const authHeader = request.cookies.token
-
     //validasi cek token
     if(!authHeader) throw new UnauthorizedException('No token existed!')
 
@@ -20,7 +19,6 @@ export class AuthGuard implements CanActivate {
     if(!payload) throw new UnauthorizedException('Token invalid!')
 
     request.user = payload
-
     const requiredRoles = Reflect.getMetadata('role',context.getHandler())||[];
     if(requiredRoles.length&&payload.role!==requiredRoles[0]){
         throw new UnauthorizedException('Forbidden')

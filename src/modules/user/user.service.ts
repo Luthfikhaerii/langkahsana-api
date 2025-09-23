@@ -19,7 +19,7 @@ export class UserService {
         })
         if(user?.password !== data.password) throw new UnauthorizedException('') 
         const token = this.authService.generateToken({email:data.email,role:user?.role})
-        return {token,user}
+        return {token,user }
     }
 
     async register(data:UserRegisterDto){ 
