@@ -18,9 +18,9 @@ export class UserController {
     @Post('login')
     @HttpCode(HttpStatus.OK)
     async login(@Body() body: { email: string, password: string }, @Res({ passthrough: true }) res: express.Response) {
-        const token = await this.userService.login({ email: body.email, password: body.password })
+        const {token,user} = await this.userService.login({ email: body.email, password: body.password })
         res.cookie('token', token, { httpOnly: true, secure: true, path: '/', sameSite: 'none' })
-        return { message: "login success!" }
+        return { message: "login success!",data:user }
     }
 
     @Post('register')
