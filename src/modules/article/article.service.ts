@@ -49,6 +49,7 @@ export class ArticleService {
                     image: image,
                     contents: {
                         create: contents.map(v => ({
+                            type: v.type,
                             content: v.content
                         }))
                     }
@@ -77,6 +78,7 @@ export class ArticleService {
                     contents: {
                         set: [],
                         create: dto.contents.map(v => ({
+                            type:v.type,
                             content: v.content
                         }))
                     }

@@ -3,6 +3,7 @@ import { IsDate, IsString } from 'class-validator'
 class ArticleContentCreateDto{
     @IsString()
     content:string
+    type:string
 }
 
 export class ArticleCreateDto{

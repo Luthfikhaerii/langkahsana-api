@@ -51,6 +51,7 @@ export class TripService {
                     title, date, price, location, kuota, image, meet_point,
                     contents: {
                         create: contents.map(v => ({
+                            type:v.type,
                             content: v.content
                         }))
                     },
@@ -85,6 +86,7 @@ export class TripService {
                     contents: {
                         set: [],
                         create: contents.map(v => ({
+                            type:v.type,
                             content: v.content
                         })),
                     },

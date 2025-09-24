@@ -9,6 +9,7 @@ class TripParticipantUpdateDto {
 
 class TripContentUpdateDto {
     content: string
+    type:string
 }
 
 export class TripUpdateDto {

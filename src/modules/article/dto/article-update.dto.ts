@@ -2,6 +2,7 @@ import { IsDate, IsString } from "class-validator"
 
 class ArticleContentUpdateDto {
     content: string
+    type:string
 }
 
 export class ArticleUpdateDto {

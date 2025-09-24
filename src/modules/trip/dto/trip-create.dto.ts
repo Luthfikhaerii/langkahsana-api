@@ -12,6 +12,7 @@ class TripParticipantCreateDto {
 
 class TripContentCreateDto {
     content: string
+    type:string
 }
 
 export class TripCreateDto {
