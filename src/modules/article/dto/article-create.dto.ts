@@ -1,19 +1,23 @@
-import { IsDate, IsString } from 'class-validator'
+import { Type } from 'class-transformer'
+import { IsDate, IsDateString, IsString, ValidateNested } from 'class-validator'
 
-class ArticleContentCreateDto{
+class ArticleContentCreateDto {
     @IsString()
-    content:string
-    type:string
+    content: string
+    @IsString()
+    type: string
 }
 
-export class ArticleCreateDto{
+export class ArticleCreateDto {
     @IsString()
     title: string
-    @IsDate()
-    date: Date
-    @IsString() 
+    @IsDateString()
+    date: string
+    @IsString()
     description: string
     @IsString()
     image: string
+    @ValidateNested({ each: true }) // ✅ untuk validasi array of object
+    @Type(() => ArticleContentCreateDto) // ✅ agar nested DTO bisa divalidasi
     contents: ArticleContentCreateDto[]
 }

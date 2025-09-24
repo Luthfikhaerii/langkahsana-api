@@ -40,6 +40,7 @@ export class ArticleService {
 
     async create(dto: ArticleCreateDto) {
         const {title,date,description,image,contents} = dto
+        console.log("asdasd")
         try {
             const article = await this.prisma.article.create({
                 data: {

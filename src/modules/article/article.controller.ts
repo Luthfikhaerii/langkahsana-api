@@ -29,6 +29,7 @@ export class ArticleController {
     @Role('admin')
     @Post()
     async createArticle(@Body() body: ArticleCreateDto) {
+        console.log(body)
         const data = await this.articleService.create(body)
         return {
             message: "create article success!",
