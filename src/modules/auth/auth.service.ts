@@ -13,7 +13,6 @@ export class AuthService {
     verifyToken(token:string){
         try{
             const payload = this.jwtService.verify(token)
-            console.log(payload)
             return payload
         }catch{
             return null
