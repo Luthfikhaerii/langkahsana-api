@@ -11,7 +11,8 @@ export class ArticleService {
     async getAll(query: ArticleQueryDto) {
         const { page, limit, search } = query
         try {
-            const data = await this.prisma.article.findMany({
+            const [data,total] = await Promise.all([
+                this.prisma.article.findMany({
                 where: search ? {
                     title: {
                         contains: search,
@@ -22,8 +23,15 @@ export class ArticleService {
                 take: limit,
                 orderBy: {
                 }
-            })
-            return data
+            }),
+            this.prisma.article.count({ where: search ? {
+                title: {
+                    contains: search,
+                    mode: 'insensitive'
+                }
+            } : undefined })
+        ])
+            return [data,total]
         } catch (err) {
             throw err
         }
@@ -31,7 +39,8 @@ export class ArticleService {
 
     async getOne(id: number) {
         try {
-            const data = await this.prisma.article.findUnique({ where: { id } })
+            const data = await this.prisma.article.findUnique({ where: { id },include:{contents:true} })
+            console.log(data)
             return data
         } catch (err) {
             throw err
@@ -77,13 +86,14 @@ export class ArticleService {
                     description: dto.description,
                     image: dto.image,
                     contents: {
-                        set: [],
+                        // set: [],
+                        deleteMany: {},
                         create: dto.contents.map(v => ({
                             type:v.type,
                             content: v.content
                         }))
                     }
-                }
+                },include:{contents:true}
             })
             return newArticle
         } catch (err) {

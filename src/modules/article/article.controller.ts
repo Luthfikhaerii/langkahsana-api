@@ -12,16 +12,17 @@ export class ArticleController {
 
     @Get()
     async getArticles(@Query() query: ArticleQueryDto) {
-        const data = this.articleService.getAll(query)
+        const [data,total] = await this.articleService.getAll(query)
         return {
-            meesage: "get article success!",
-            data: data
+            message: "get article success!",
+            data: data,
+            total: total
         }
     }
 
     @Get(':id')
     async getOneArticle(@Param('id',new ParseIntPipe({errorHttpStatusCode:HttpStatus.NOT_ACCEPTABLE})) id: number) {
-        const data = this.articleService.getOne(id)
+        const data = await this.articleService.getOne(id)
         return { data: data, message: "get one article success!" }
     }
 
@@ -29,7 +30,6 @@ export class ArticleController {
     @Role('admin')
     @Post()
     async createArticle(@Body() body: ArticleCreateDto) {
-        console.log(body)
         const data = await this.articleService.create(body)
         return {
             message: "create article success!",
@@ -37,10 +37,13 @@ export class ArticleController {
         }
     }
 
+    
+    @Put(':id')
     @UseGuards(AuthGuard)
     @Role('admin')
-    @Put(':id')
     async editArticle(@Param('id',new ParseIntPipe({errorHttpStatusCode:HttpStatus.NOT_ACCEPTABLE})) id:number,@Body() body:ArticleUpdateDto){
+        console.log('woya ds')
+        console.log(body)
         const data = await this.articleService.update(id,body)
         return {
             message : "update article success!",

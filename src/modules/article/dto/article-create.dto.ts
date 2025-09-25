@@ -17,7 +17,7 @@ export class ArticleCreateDto {
     description: string
     @IsString()
     image: string
-    @ValidateNested({ each: true }) // ✅ untuk validasi array of object
-    @Type(() => ArticleContentCreateDto) // ✅ agar nested DTO bisa divalidasi
+    @ValidateNested({ each: true }) 
+    @Type(() => ArticleContentCreateDto) 
     contents: ArticleContentCreateDto[]
 }
