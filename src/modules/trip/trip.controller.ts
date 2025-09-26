@@ -12,16 +12,17 @@ export class TripController {
 
     @Get()
     async getTrips(@Query() query: TripQueryDto) {
-        const data = this.tripService.getAll(query)
+        const [data,total] = await this.tripService.getAll(query)
         return {
             message: "get trip success!",
-            data
+            data: data,
+            total: total
         }
     }
 
     @Get(':id')
     async getOneTrip(@Param('id', new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })) id: number) {
-        const data = this.tripService.getOne(id)
+        const data = await this.tripService.getOne(id)
         return {
             message: "get one trip success!",
             data

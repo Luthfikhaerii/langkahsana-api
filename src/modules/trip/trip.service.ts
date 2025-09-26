@@ -9,9 +9,9 @@ export class TripService {
     constructor(private prisma: PrismaService) { }
 
     async getAll(query: TripQueryDto) {
-        const { page, limit, search } = query
+        const { page=1, limit=12, search } = query
         try {
-            const trip = await this.prisma.trip.findMany({
+            const [data,total] = await Promise.all([this.prisma.trip.findMany({
                 where: search ? {
                     title: {
                         contains: search,
@@ -23,8 +23,15 @@ export class TripService {
                 orderBy: {
                     date: 'desc'
                 }
-            })
-            return trip
+            }),
+            this.prisma.trip.count({ where: search ? {
+                    title: {
+                        contains: search,
+                        mode: "insensitive"
+                    }
+                } : undefined,})
+        ])
+            return [data,total]
         } catch (err) {
             throw err
         }
