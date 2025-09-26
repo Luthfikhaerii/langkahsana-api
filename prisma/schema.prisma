@@ -27,7 +27,7 @@ model Article {
   description String
   date        DateTime @default(now())
   image       String
-  contents    Content[]   
+  contents    Content[]
 }
 
 model Content {
@@ -36,7 +36,7 @@ model Content {
   type      String
   content  String
 
-  article Article @relation(fields:[id_article],references: [id])
+  article Article @relation(fields:[id_article],references: [id],onDelete: Cascade)
 }
 
 model Trip {
@@ -59,7 +59,7 @@ model TripContent {
   type String
   content String
 
-  trip  Trip @relation(fields:[id_trip],references:[id])
+  trip  Trip @relation(fields:[id_trip],references:[id],onDelete: Cascade)
 }
 
 model Participant {
@@ -72,5 +72,5 @@ model Participant {
   meet_point      String
   payment_proof   String
   
-  trip Trip @relation(fields:[trip_id],references:[id])
+  trip Trip @relation(fields:[trip_id],references:[id],onDelete: Cascade)
 }

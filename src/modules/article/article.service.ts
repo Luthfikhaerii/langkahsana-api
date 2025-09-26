@@ -40,7 +40,6 @@ export class ArticleService {
     async getOne(id: number) {
         try {
             const data = await this.prisma.article.findUnique({ where: { id },include:{contents:true} })
-            console.log(data)
             return data
         } catch (err) {
             throw err
@@ -49,7 +48,6 @@ export class ArticleService {
 
     async create(dto: ArticleCreateDto) {
         const {title,date,description,image,contents} = dto
-        console.log("asdasd")
         try {
             const article = await this.prisma.article.create({
                 data: {
