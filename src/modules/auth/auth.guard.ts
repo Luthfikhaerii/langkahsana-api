@@ -22,7 +22,6 @@ export class AuthGuard implements CanActivate {
     request.user = payload
     const requiredRoles = Reflect.getMetadata('role',context.getHandler())||[];
     if(requiredRoles.length&&payload.role!==requiredRoles[0]){
-        console.log('woyy')
         throw new UnauthorizedException('Forbidden')
     }
 
